@@ -1,23 +1,28 @@
-import { useState } from "react"
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 const Create = () => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [author, setAuthor] = useState('yoshi');
-    const {isPending, setIspending} = useState(false)
+    const [isPending, setIsPending] = useState(false);
+    const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        setIspending(true);
         const blog = { title, body, author };
+
+        setIsPending(true);
 
         fetch('http://localhost:8000/blogs', {
             method: 'POST',
             headers:{ "Content-Type": "application/json"},
             body:JSON.stringify(blog)
         }).then(() => {
-            setIspending(false);
+            setIsPending(false);
+            history.push('/');
         })
+        
     }
 
     return ( <div className="create">
